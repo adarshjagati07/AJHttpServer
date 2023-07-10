@@ -19,11 +19,40 @@ function serverResource(socket, resource) {
 	header = header + "\n";
 	var response = header + data;
 	socket.write(response);
+
+	// var file = resource;
+	// var header = "HTTP/1.1 200 OK\n";
+	// header = header + `Content-Type: ${mimeTypes.lookup(resource)}\n`;
+	// header = header + `Content-Length: ${     }\n`; //the issue is currently i am not getting how to get content length;
+	// header = header + "\n";
+	// socket.write(header);
+	// var bufferSize = 1024;
+	// var buffer = Buffer.alloc(bufferSize);
+	// var fileDescriptor = fs.openSync(file, "r");
+	// var data;
+	// var bytesExtracted;
+	// while (true) {
+	// 	bytesExtracted = fs.readSync(fileDescriptor, buffer, 0, bufferSize);
+	// 	if (bytesExtracted == 0) {
+	// 		fs.closeSync(fileDescriptor);
+	// 		break;
+	// 	} else if (bytesExtracted < bufferSize) {
+	// 		data = buffer.slice(0, bytesExtracted);
+	// 	} else {
+	// 		data = buffer;
+	// 	}
+	// 	socket.write(data);
+	// }
 }
 
 var httpServer = net.createServer(function (socket) {
 	socket.on("data", function (data) {
-		var request = requestParser.parseRequest(data);
+		var request = requestParser.parseRequest(data, mappings);
+
+		if (request.error != 0) {
+			errors.send404(socket, request.resource);
+		}
+
 		if (request.isClientSideTechnologyResource) {
 			serverResource(socket, request.resource);
 		} else {
