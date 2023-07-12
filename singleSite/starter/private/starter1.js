@@ -1,11 +1,10 @@
 var thisModule = this;
-exports.processError = function (error, socket, resource) {
-	if (error == 404) {
-		thisModule.send404(socket, resource);
-	}
-};
+exports.processRequest = function (request, response) {
+	var name = request.data["nm"];
+	var city = request.data["ct"];
+	var gender = request.data["gender"];
+	var address = request.data["address"];
 
-exports.send404 = function (socket, resource) {
 	var body = "<!doctype html>";
 	body = body + "<html lang='en'>";
 	body = body + "<head>";
@@ -13,12 +12,15 @@ exports.send404 = function (socket, resource) {
 	body = body + "<meta charset='utf-8'>";
 	body = body + "</head>";
 	body = body + "<body>";
-	body = body + "<h1 align='center'>Resource Not Found</h1>";
+	body = body + "<h1> This is starter.js file of Private folder</h1>";
 	body =
 		body +
-		"<p>The requested URL /" +
-		resource +
-		" was not found on this server</p>";
+		"<h2 align='center'> We are heading towards our first dynamic page</h2>";
+	body = body + "<h3> Contents of data coming from request: </h3><br>";
+	body = body + "<p>Name : " + name + "</p>";
+	body = body + "<p>City : " + city + "</p>";
+	body = body + "<p>Gender : " + gender + "</p>";
+	body = body + "<p>Address : " + address + "</p>";
 	body = body + "</body>";
 	body = body + "</html>";
 	var header = "HTTP/1.1 404 Not Found\n";
@@ -28,5 +30,5 @@ exports.send404 = function (socket, resource) {
 	header = header + "Content-Length: " + body.length + "\n";
 	header = header + "Connection: close\n";
 	header = header + "\n";
-	socket.write(header + body);
+	response.write(header + body);
 };

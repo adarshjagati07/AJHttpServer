@@ -5,11 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Starter Kit - Test page</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            font-weight: 400;
+            line-height: 2;
+            font-size: large;
+        }
+    </style>
 </head>
 
 <body>
-    This is a test page <br><br>
-    <a href="index.html">Home</a>
+    <form action="sample1">
+        <div align="center">
+            <h2 align="center">Form</h2>
+            Name <input type="text" name="nm"><br>
+            City <input type=" text" name="ct"><br>
+            Gender: <br>
+            Male: <input type="radio" name="gender" value="M"><br>
+            Female: <input type="radio" name="gender" value="F"><br>
+            Address: <br>
+            <textarea name="address" cols="30" rows="10"></textarea><br>
+            <button type="submit">Submit</button>
+        </div>
+
+    </form>
 </body>
 
 </html>

@@ -6,6 +6,14 @@ const errors = require("./errors");
 const requestParser = require("./requestParser");
 var mappings = configuration.getConfiguration();
 
+function Response(socket) {
+	//currently this is a bad design but we'll change it later
+	this.$$$socket = socket;
+	this.write = function (data) {
+		this.$$$socket.write(data);
+	};
+}
+
 function serverResource(socket, resource) {
 	if (!fs.existsSync(resource)) {
 		errors.send404(socket, resource);
@@ -48,15 +56,18 @@ function serverResource(socket, resource) {
 var httpServer = net.createServer(function (socket) {
 	socket.on("data", function (data) {
 		var request = requestParser.parseRequest(data, mappings);
-
 		if (request.error != 0) {
-			errors.send404(socket, request.resource);
+			errors.processError(request.error, socket, request.resource);
 		}
 
 		if (request.isClientSideTechnologyResource) {
 			serverResource(socket, request.resource);
 		} else {
-			//will code this part later on
+			console.log(
+				"Server side resource : " + request.resource + " will be processed "
+			);
+			var service = require("./private/" + request.resource);
+			service.processRequest(request, new Response(socket));
 		}
 	});
 	socket.on("end", function () {
