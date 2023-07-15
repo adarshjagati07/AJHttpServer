@@ -7,9 +7,21 @@ const requestParser = require("./requestParser");
 var mappings = configuration.getConfiguration();
 
 function Response(socket) {
-	//currently this is a bad design but we'll change it later
+	this.responseInitiated = false;
 	this.$$$socket = socket;
+	this.contentType = "text/html";
+	this.setContentType = function (str) {
+		this.contentType = str;
+	};
 	this.write = function (data) {
+		if (this.responseInitiated == false) {
+			this.$$$socket.write("HTTP/1.1 200 OK\n");
+			this.$$$socket.write(new Date().toGMTString() + "\n");
+			this.$$$socket.write("Server: AJWebProjector\n");
+			this.$$$socket.write("Content-Type: " + this.contentType + "\n");
+			this.$$$socket.write("Connection: close\n\n");
+			this.responseInitiated = true;
+		}
 		this.$$$socket.write(data);
 	};
 }

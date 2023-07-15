@@ -4,31 +4,25 @@ exports.processRequest = function (request, response) {
 	var city = request.data["ct"];
 	var gender = request.data["gender"];
 	var address = request.data["address"];
+	response.setContentType("text/html");
 
-	var body = "<!doctype html>";
-	body = body + "<html lang='en'>";
-	body = body + "<head>";
-	body = body + "<title>404 Not Found</title>";
-	body = body + "<meta charset='utf-8'>";
-	body = body + "</head>";
-	body = body + "<body>";
-	body = body + "<h1> This is starter.js file of Private folder</h1>";
-	body =
-		body +
-		"<h2 align='center'> We are heading towards our first dynamic page</h2>";
-	body = body + "<h3> Contents of data coming from request: </h3><br>";
-	body = body + "<p>Name : " + name + "</p>";
-	body = body + "<p>City : " + city + "</p>";
-	body = body + "<p>Gender : " + gender + "</p>";
-	body = body + "<p>Address : " + address + "</p>";
-	body = body + "</body>";
-	body = body + "</html>";
-	var header = "HTTP/1.1 404 Not Found\n";
-	header = header + new Date().toGMTString() + "\n";
-	header = header + "Server: AJWebProjector\n";
-	header = header + "Content-Type: text/html\n";
-	header = header + "Content-Length: " + body.length + "\n";
-	header = header + "Connection: close\n";
-	header = header + "\n";
-	response.write(header + body);
+	response.write("<!doctype html>");
+	response.write("<html lang='en'>");
+	response.write("<head>");
+	response.write("<title>Sample File</title>");
+	response.write("<meta charset='utf-8'>");
+	response.write("</head>");
+	response.write("<body>");
+	response.write("<h1> This is starter.js file of Private folder</h1>");
+	response.write("<h2 align='center'> We are heading towards our first dynamic page</h2>");
+	response.write("<h3> Contents of data coming from request: </h3><br>");
+	response.write("<p>Name : " + name + "</p>");
+	response.write("<p>City : " + city + "</p>");
+	response.write("<p>Gender : " + gender + "</p>");
+	response.write("<p>Address : " + address + "</p>");
+	response.write("</body>");
+	response.write("</html>");
 };
+//now user don't have to write header's over here also no need to string concatination
+//simply this is going to be the procedure to run their dynamic html pages.
+//they just have to set the content type and response.write their html document.
