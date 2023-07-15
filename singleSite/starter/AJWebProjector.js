@@ -59,13 +59,10 @@ var httpServer = net.createServer(function (socket) {
 		if (request.error != 0) {
 			errors.processError(request.error, socket, request.resource);
 		}
-
 		if (request.isClientSideTechnologyResource) {
 			serverResource(socket, request.resource);
 		} else {
-			console.log(
-				"Server side resource : " + request.resource + " will be processed "
-			);
+			console.log("Server side resource : " + request.resource + " will be processed ");
 			var service = require("./private/" + request.resource);
 			service.processRequest(request, new Response(socket));
 		}
