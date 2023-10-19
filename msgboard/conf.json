@@ -1,0 +1,15 @@
+{
+    "paths":[
+        {
+            "path": "/admin",
+            "module":"AdminManager", 
+            "methods": {
+                "/":"index",
+                "/create":"createAdministrator",
+                "/authenticate":"checkCredentials",
+                "/logout":"logout",
+                "/home": "home"
+            }
+        } 
+    ]
+}
